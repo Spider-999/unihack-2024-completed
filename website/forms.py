@@ -8,5 +8,11 @@ class RegisterForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     password_confirm = PasswordField('Confirm Password', validators=[DataRequired()])
-    user_role = SelectField('Rol', )
-    submit = SubmitField('Creeaza contul', choices=['Elev', 'Profesor'], validators=[DataRequired()], default='Elev')
+    user_role = SelectField('Rol', choices=['Elev', 'Profesor'], validators=[DataRequired()], default='Elev')
+    submit = SubmitField('Inregistrare')
+
+
+class LoginForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Autentificare')

@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_login import LoginManager
 
 
 def create_app():
@@ -8,5 +9,7 @@ def create_app():
 
     from .auth import auth
     app.register_blueprint(auth, url_prefix='/')
+
+    
 
     return app

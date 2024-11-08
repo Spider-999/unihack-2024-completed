@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p>hi</p>
+{{ form.username.label }}
+{{ form.username }}
+{{ form.email.label }}
+{{ form.email }}
+{{ form.password.label }}
+{{ form.password }}
+{{ form.password_confirm.label }}
+{{ form.password_confirm }}
+{{ form.user_role.label }}
+{{ form.user_role }}
+{{ form.submit }}
 {% endblock %}
