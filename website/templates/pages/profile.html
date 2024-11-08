@@ -12,9 +12,12 @@
                     <div class="media">
                         <img class="rounded-circle account-img" src="{{ image_file }}" alt="Profile Image">
                         <div class="media-body ms-3">
-                            <h5 class="mt-0">{{ current_user.username }}</h5>
-                            <p>Data alăturării: {{ current_user.date_joined.strftime('%d-%m-%Y') }}</p>
-                            <p>Rol: {{ current_user.user_role }}</p>
+                            <h3> {{ current_user.username }} </h3>
+                            <p> {{ current_user.email }} </p>
+                            <p> Data alaturarii: {{ current_user.date_joined.strftime('%d-%m-%Y') }}</p>
+                            <p> Raspunsuri corecte: {{ current_user.correct_answers }} </p>
+                            <p> Serie zilnica: {{ current_user.streak }} </p>
+                            <p> Rol: {{ current_user.user_role }} </p>
                         </div>
                     </div>
                 </div>

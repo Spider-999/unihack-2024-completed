@@ -1,8 +1,9 @@
 from flask import Flask
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import os
+import json
 
 
 db = SQLAlchemy()
@@ -12,15 +13,17 @@ migrate = Migrate()
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'dev'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
 
 
 
     # Blueprint setup
     from .auth import auth
     from .pages import pages
+    from .learn import learn
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(pages, url_prefix='/')
+    app.register_blueprint(learn, url_prefix='/')
     
     # Database setup
     from .models import User

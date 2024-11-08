@@ -1,6 +1,6 @@
 from . import db
 from flask_login import UserMixin
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class User(db.Model, UserMixin):
@@ -11,11 +11,41 @@ class User(db.Model, UserMixin):
     user_role = db.Column(db.String(10), nullable=False)
     date_joined = db.Column(db.DateTime(), nullable=False, default=datetime.now())
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    streak = db.Column(db.Integer(), default = 0)
+    correct_answers = db.Column(db.Integer, default=0)
+
+
+    # Set time to yesterday for newly created user for last exercise solved
+    last_exercise = db.Column(db.DateTime(), nullable=True, default=datetime.now() - timedelta(1))
 
     # backref -> use the author to get the user who created the post
     # lazy -> load the data in one go from the db
     posts = db.relationship('Post', backref='user', lazy=True)
     comments = db.relationship('Comment', backref='user', lazy='dynamic')
+    questions = db.relationship('Question', backref='user')
+
+
+    def update_streak(self):
+        today = datetime.now()
+        
+        # If user has already completed an exercise don't update the streak again
+        if self.last_exercise.date() == today.date():
+            return
+        
+        if (today - self.last_exercise).total_seconds() / 3600 < 25:
+            self.streak += 1
+        else:
+            self.streak = 0
+
+        self.last_exercise = today
+        db.session.commit()
+
+    
+    def get_leaderboard_answers(self):
+        return User.query.order_by(User.correct_answers.desc()).all()
+    
+    def get_leaderboard_days(self):
+        return User.query.order_by(User.streak.desc()).all()
 
 
 class Post(db.Model):
@@ -37,4 +67,26 @@ class Comment(db.Model):
     content = db.Column(db.Text, nullable=False)
     time_posted = db.Column(db.DateTime(timezone=True), nullable=False, default=datetime.now())
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+
+class Grade(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable = False, unique = True)
+    lessons = db.relationship('Lesson', backref='grade', lazy=True)
+
+
+class Lesson(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(128), nullable=False)
+    grade_id = db.Column(db.Integer, db.ForeignKey('grade.id'), nullable=False)
+    questions = db.relationship('Question', backref='lesson', lazy=True)
+
+
+class Question(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    question_text = db.Column(db.String(256), nullable=False)
+    lesson_id = db.Column(db.Integer, db.ForeignKey('lesson.id'), nullable=False)
+    answer = db.Column(db.String(128), nullable = True)
+    completed = db.Column(db.Boolean, default=False, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

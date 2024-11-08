@@ -57,7 +57,7 @@ def new_post():
         return redirect(url_for('pages.forum_teme'))
     
     return render_template('pages/forum/create_post.html', form=post_form, legend='New Post')
-
+    
 
 @pages.route("/forum")
 @login_required
@@ -120,3 +120,20 @@ def delete_post(post_id):
     db.session.delete(post)
     db.session.commit()
     return redirect(url_for('pages.forum_teme'))
+
+@pages.route("/invata")
+@login_required
+def invata():
+    return render_template('pages/invata/invata.html')
+
+
+@pages.route("/invata/matematica")
+@login_required
+def invata_matematica():
+    return render_template('pages/invata/matematica.html')
+
+
+@pages.route("/invata/informatica")
+@login_required
+def invata_info():
+    return render_template('pages/invata/informatica.html')
