@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<form class="p-3 border rounded-5" method="POST" action="">
+{{ form.hidden_tag() }}
 {{ form.username.label }}
 {{ form.username }}
 {{ form.email.label }}
@@ -12,4 +15,5 @@
 {{ form.user_role.label }}
 {{ form.user_role }}
 {{ form.submit }}
+</form>
 {% endblock %}
