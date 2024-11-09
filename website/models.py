@@ -19,7 +19,9 @@ class User(db.Model, UserMixin):
     date_joined = db.Column(db.DateTime(), nullable=False, default=datetime.now())
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     streak = db.Column(db.Integer(), default = 0)
-    correct_answers = db.Column(db.Integer, default=0)
+    correct_answers = db.Column(db.Integer, default = 0)
+    level = db.Column(db.Integer, default = 0)
+    experience = db.Column(db.Integer, default = 0)
 
 
     # Set time to yesterday for newly created user for last exercise solved
@@ -59,7 +61,19 @@ class User(db.Model, UserMixin):
             if badge not in current_user.badges:
                 current_user.badges.append(badge)
                 db.session.commit()
+
     
+    def level_up(self):
+        if current_user.level == 0 and current_user.experience >= 10:
+            current_user.level = 1
+            current_user.experience -= 10
+            db.session.commit()
+        if current_user.level >= 1 and current_user.level <= 5 and current_user.experience >= 30:
+            current_user.level += 1
+            current_user.experience -= 30
+            db.session.commit()
+    
+
     def get_leaderboard_answers(self):
         return User.query.order_by(User.correct_answers.desc()).all()
     

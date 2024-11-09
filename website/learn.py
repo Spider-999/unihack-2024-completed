@@ -34,9 +34,11 @@ def lessons(page_id, capitol_id, lesson):
                     questions[i].completed = True
                     user = User.query.get(current_user.id)
                     user.correct_answers += 1
+                    user.experience += 10
                     db.session.commit()
                     user.update_streak()
                     user.award_badge()
+                    user.level_up()
             forms[i].question.data = ''
         
         return render_template(f'pages/invata/clase_mate/lectii_mate/capitol{capitol_id}/lectia{lesson}.html',

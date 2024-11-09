@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, current_app, url_for, request, redirect, abort
+from flask import Blueprint, render_template, current_app, url_for, request, redirect, abort, jsonify
 from flask_login import login_required, current_user
 from PIL import Image
 import secrets
@@ -44,6 +44,11 @@ def profile():
 
     img_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('pages/profile.html', image_file=img_file, form=form)
+
+
+@pages.route('/profile/get_experience')
+def get_experience():
+    return jsonify({"experience":current_user.experience})
 
 
 @pages.route("/forum/teme/new_post", methods=['GET', 'POST'])
