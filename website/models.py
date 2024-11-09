@@ -114,6 +114,7 @@ class Lesson(db.Model):
     title = db.Column(db.String(128), nullable=False)
     grade_id = db.Column(db.Integer, db.ForeignKey('grade.id'), nullable=False)
     questions = db.relationship('Question', backref='lesson', lazy=True)
+    themes = db.relationship('Theme', backref='lesson', lazy=True)
 
 
 class Question(db.Model):
@@ -132,3 +133,9 @@ class Badge(db.Model):
     image_file = db.Column(db.String(64), nullable=False, default='profile_pics/default.jpg')
     users = db.relationship('User', secondary=user_badge, back_populates='badges')
     
+
+class Theme(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(32), nullable=False)
+    content = db.Column(db.String(4096), nullable=False)
+    lesson_id = db.Column(db.Integer, db.ForeignKey('lesson.id'), nullable=False)

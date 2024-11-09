@@ -3,12 +3,10 @@
 {% block content %}
 
 <div class="container">
-    <form class="p-3 border rounded-5" method="POST" action="">
+    <form class="p-3 border rounded-4 shadow-lg" method="POST" action="">
           {{ form.hidden_tag() }}
-  
-            <legend class="border-bottom mb-4">{{ legend }}</legend>
           <div class="form-group">
-              {{ form.title.label(class="form-control-label") }}
+              {{ form.title.label(class="form-control-label", style="font-size: 1.5rem;") }}
   
               {% if form.title.errors %}
                   {{ form.title(class="form-control form-control-lg is-invalid") }}
@@ -25,7 +23,7 @@
           </div>
   
           <div class="form-group">
-              {{ form.content.label(class="form-control-label") }}
+              {{ form.content.label(class="form-control-label",style="font-size: 1.5rem;") }}
   
               {% if form.content.errors %}
                   {{ form.content(class="form-control form-control-lg is-invalid") }}
@@ -41,10 +39,11 @@
               {% endif %}
           </div>
   
-          <div class="form-group">
-                
-              {{ form.submit(class="mt-3 btn btn-outline-info") }}
-          </div>
+          <div class="container">
+            <div class="btn-block text-end">
+              {{ form.submit(class="btn btn-primary text-end mt-3") }}
+            </div>
+        </div>
           
     </form>
 </div>

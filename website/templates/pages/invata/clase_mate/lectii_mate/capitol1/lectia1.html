@@ -2,15 +2,13 @@
 
 {% block content %}
 
-<p>
-    Prin ordonarea numerelor naturale înțelegem scrierea în ordine crescătoare sau descrecătoare:
-    <br>
-    ordonare crescătoare: numerele sunt scrise de la cel mai mic la cel mai mare;
-    <br>
-    ordonare descrescătoare: numerele sunt scrise de la cel mai mare la cel mai mic;
-    <br>
-</p>
+<div class="container">
+    <span style="white-space: pre-line">{{ text }}</span>
+</div>
 
+<br>
+
+<div class="container">
 <form method="POST">
 
     {% for form in forms %}
@@ -31,6 +29,7 @@
     {% endfor %}
 
 </form>
+</div>
 
 
 {% endblock %}
