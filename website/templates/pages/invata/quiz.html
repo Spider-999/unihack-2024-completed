@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<button id="startButton">Start Test</button>
+<div id="timer">0 seconds</div>
+<script>
+    let timerInterval;
+
+    let seconds = 0;
+
+
+    const startButton = document.getElementById('startButton');
+
+    const timerDisplay = document.getElementById('timer');
+
+
+    startButton.addEventListener('click', () => {
+
+        // Clear any existing timer
+
+        clearInterval(timerInterval);
+
+
+        // Reset seconds
+
+        seconds = 0;
+
+
+        // Start the timer
+
+        timerInterval = setInterval(() => {
+
+            seconds++;
+
+            timerDisplay.textContent = `${seconds} seconds`;
+
+        }, 1000);
+
+    });
+</script>
+{% endblock %}

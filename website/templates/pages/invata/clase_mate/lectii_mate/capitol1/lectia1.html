@@ -2,34 +2,107 @@
 
 {% block content %}
 
-<div class="container">
-    <span style="white-space: pre-line">{{ text }}</span>
-</div>
+<style>
+
+    .card{
+        box-shadow: 0 8px 8px 0 rgb(0, 0, 0, 0.1);
+        border-radius: 4px;
+        width: device-width;
+        height: device-height;
+        background-image: linear-gradient(to bottom , rgba(13, 110, 253, 0.5), rgba(13, 110, 253, 0.8));
+        
+        align-items: center;
+    }
+
+    .container {
+        padding: 4px 4px;
+    }
+
+    pc
+    {
+        font-family: Verdana;
+        color: white;
+        text-shadow: 2px 2px 4px #000000;  
+        text-align: justify;
+    }
+
+    p1
+    {
+        font-family: Verdana;
+        padding: 0px 24px;
+    }
+    h1
+    {
+        font-family: Verdana;
+        padding: 0px 12px;
+    }
+    h2
+    {
+        font-family: Verdana;
+        padding: 0px 12px;
+    }
+    h3
+    {
+        font-family: Verdana;
+        padding: 0px 12px;
+    }
+    h4
+    {
+        font-family: Verdana;
+        padding: 0px 12px;
+    }
+    pt
+    {
+        font-family: Verdana;
+        padding: 0px 8px;
+    }
+</style>
 
 <br>
 
-<div class="container">
-<form method="POST">
+<!-- Form card -->
 
-    {% for form in forms %}
-        {{ form.hidden_tag() }}
-        {{ questions[loop.index0].question_text }}
-        
-        {% if questions[loop.index0].completed %}
-            <p> {{ form.question(readonly=true) }} raspuns corect! </p>
-        {% else %}
-            <p>
-                {{ form.question(class="form-control") }}
-            </p>
+<div class= "card" align= "justify">
 
-            <p>
-                {{ form.submit(class="btn btn-primary") }}
-            </p>
-        {% endif %}
-    {% endfor %}
+    <div class="container">
+        <span style="white-space: pre-line">{{ text }}</span>
+    </div>
 
-</form>
-</div>
+    <br>
+    
+    <form method="POST">
+        <div class= "container">
+    
+        <br>
+    
+        <h3 align-items="justify"><b><u>Exercitii</u></b></h3>    
+    
+        <br>
+        {% for form in forms %}
+            {{ form.hidden_tag() }}
+            {{ questions[loop.index0].question_text }}
+            
+            {% if questions[loop.index0].completed %}
+                <p> {{ form.question(readonly=true) }} raspuns corect! </p>
+            {% else %}
+                    <p>
+                        {{ form.question(class="form-control") }}
+                    </p>
+    
+                    <p>
+                        {{ form.submit(class="btn btn-primary") }}
+                    </p>
+                
+            {% endif %}
+        {% endfor %}
+        </div>
+    </form>
+    
+    <br>
+    
+    </div>
+    
+    <!-- end Form card -->
 
 
 {% endblock %}

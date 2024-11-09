@@ -2,35 +2,35 @@
 
 {% block content %}
 
-<div class="container py-5">
+<div class="container rounded" style="background: linear-gradient(to bottom, #5f9aff, #ffffff); min-height: 200vh;">
     <!-- Hero Section -->
-    <div class="p-5 mb-4 bg-light rounded-3 text-center shadow-lg">
-        <div class="container py-5">
-            <h1 class="display-5 fw-bold text-primary">Bine ați venit la FunLearning!</h1>
-            <p class="fs-4">Învățați Matematică, Programare și Fizică într-un mod interactiv și "fun".</p>
-            <a href="#" class="btn btn-primary btn-lg btn-transition">Începeți Să Învățați</a>
+    <div class="p-4 mb-4 bg-light rounded-3 text-center shadow-lg">
+        <div class="container py-4">
+            <h1 class="display-5 fw-bold text-primary">  <sep class="text-secondary">Bine ați venit la </sep>FunLearning!</h1>
+            <p class="fs-4 text-muted">Învățați Matematică, Programare și Fizică într-un mod interactiv și "fun".</p>
+            <a href="{{ url_for('pages.invata') }}" class="btn btn-primary btn-lg btn-transition">Începeți Să Învățați</a>
         </div>
     </div>
 
     <!-- Features Section -->
     <section class="text-center my-5">
-        <h2 class="mb-4">De ce să alegeți FunLearning?</h2>
+        <h2 class="mb-4 fw-bold text-light bg-primary rounded p-2 shadow">De ce să alegeți FunLearning?</h2>
         <div class="row">
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card shadow-sm h-100 card-hover">
-                    <img src="/static/math.JPG" class="card-img-top" alt="Matematică">
+                    <img src="/static/math.png" class="card-img-top" alt="Matematică">
                     <div class="card-body">
-                        <h5 class="card-title">Matematică Interactivă</h5>
+                        <h5 class="card-title text-danger fw-bold">Matematică Interactivă</h5>
                         <p class="card-text">Rezolvați puzzle-uri și provocări pentru a învăța concepte matematice complexe!</p>
-                        <a href="{{ url_for('pages.invata_matematica')}}" class="btn btn-outline-primary btn-transition">Învățați Matematică</a>
+                        <a href="{{ url_for('pages.invata_matematica')}}" class="btn btn-outline-danger btn-transition">Învățați Matematică</a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card shadow-sm h-100 card-hover">
-                    <img src="/static/programming.JPG" class="card-img-top" alt="Programare">
+                    <img src="/static/programming.png" class="card-img-top" alt="Programare">
                     <div class="card-body">
-                        <h5 class="card-title">Programare Distractivă</h5>
+                        <h5 class="card-title fw-bold">Programare Distractivă</h5>
                         <p class="card-text">Programați-vă drumul prin jocuri captivante și dobândiți abilități de programare!</p>
                         <a href="{{ url_for('pages.invata_info')}}" class="btn btn-outline-primary btn-transition">Învățați Programare</a>
                     </div>
@@ -38,11 +38,11 @@
             </div>
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card shadow-sm h-100 card-hover">
-                    <img src="/static/physics.JPG" class="card-img-top" alt="Fizică">
+                    <img src="/static/physics.png" class="card-img-top" alt="Fizică">
                     <div class="card-body">
-                        <h5 class="card-title">Fizică Interesantă</h5>
+                        <h5 class="card-title text-success fw-bold">Fizică Interesantă</h5>
                         <p class="card-text">Explorați conceptele de fizică cu simulări și experimente din lumea reală.</p>
-                        <a href="#" class="btn btn-outline-primary btn-transition">Învățați Fizică</a>
+                        <a href="#" class="btn btn-outline-success btn-transition">Învățați Fizică</a>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
 
     <!-- Gamification & Rewards Section -->
     <section class="text-center my-5">
-        <h2 class="mb-4">Câștigați Recompense pe Măsură ce Învățați!</h2>
+        <h2 class="mb-4 py-5">Câștigați Recompense pe Măsură ce Învățați!</h2>
         <div class="row">
             <div class="col-md-4">
                 <div class="p-3 bg-primary text-white rounded-circle mx-auto mb-3 icon-hover" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
@@ -114,7 +114,7 @@
 
     <!-- Call to Action -->
     <section class="text-center my-5">
-        <h2 class="mb-3">Ești Pregătit să Îți Începi Călătoria cu FunLearning?</h2>
+        <h2 class="mb-3 py-5">Ești Pregătit să Îți Începi Călătoria cu FunLearning?</h2>
         <a href="{{ url_for('auth.register') }}" class="btn btn-success btn-lg btn-transition">Alătură-te Acum Gratuit</a>
     </section>
 
