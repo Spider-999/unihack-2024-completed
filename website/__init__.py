@@ -46,6 +46,7 @@ def create_app():
 
 
 def load_data(file, model):
+    print(file)
     with open(file, 'r') as file:
         data = json.load(file)
         
@@ -76,10 +77,10 @@ def load_data(file, model):
 def populate_db():
     from .models import Grade, Lesson, Question, Badge
     
-    load_data('unihack-2024/preload_data/grades.json', Grade)
-    load_data('unihack-2024/preload_data/lessons.json', Lesson)
-    load_data('unihack-2024/preload_data/questions.json', Question)
-    load_data('unihack-2024/preload_data/badges.json', Badge)
+    load_data('/home/wh0am1/Workspace/unihack-2024/website/preload_data/grades.json', Grade)
+    load_data('/home/wh0am1/Workspace/unihack-2024/website/preload_data/lessons.json', Lesson)
+    load_data('/home/wh0am1/Workspace/unihack-2024/website/preload_data/questions.json', Question)
+    load_data('/home/wh0am1/Workspace/unihack-2024/website/preload_data/badges.json', Badge)
     
 
 def create_db(app):
