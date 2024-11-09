@@ -18,6 +18,15 @@
                             <p> Raspunsuri corecte: {{ current_user.correct_answers }} </p>
                             <p> Serie zilnica: {{ current_user.streak }} </p>
                             <p> Rol: {{ current_user.user_role }} </p>
+                            <p> Badgeuri: </p>
+                            <span>
+                                {% for badge in current_user.badges %}
+                                    <p> {{ badge.name }} 
+                                    <img class="rounded-circle badge-img" 
+                                    src="{{image_file}}"> </p>
+                                    {{badge.image_file}}
+                                {% endfor %}
+                            </span>
                         </div>
                     </div>
                 </div>

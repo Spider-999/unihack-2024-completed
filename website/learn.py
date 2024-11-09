@@ -30,13 +30,13 @@ def lessons(page_id, capitol_id, lesson):
         for i in range(0, len(forms)):
             if not questions[i].completed:
                 
-                print(questions[i])
                 if forms[i].validate_on_submit() and forms[i].question.data == questions[i].answer:
                     questions[i].completed = True
                     user = User.query.get(current_user.id)
                     user.correct_answers += 1
                     db.session.commit()
                     user.update_streak()
+                    user.award_badge()
             forms[i].question.data = ''
         
         return render_template(f'pages/invata/clase_mate/lectii_mate/capitol{capitol_id}/lectia{lesson}.html',

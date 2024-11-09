@@ -54,11 +54,12 @@ def load_data(file, model):
                 for item in data:
                     instance = model(**item, user_id=current_user.id)
                     # check if the model doesnt already exist in the db
-                    if not model.query.filter_by(**item).first():
+                    if not model.query.filter_by(**item, user_id=current_user.id).first():
                         db.session.add(instance)
-            case "Lesson"|"Grade":
+            case "Lesson"|"Grade"|"Badge":
                 for item in data:
                     instance = model(**item)
+                    print(instance)
                     # check if the model doesnt already exist in the db
                     if not model.query.filter_by(**item).first():
                         db.session.add(instance)
@@ -73,10 +74,12 @@ def load_data(file, model):
 
 # TO DO: move this function in another file with utility functions
 def populate_db():
-    from .models import Grade, Lesson, Question
+    from .models import Grade, Lesson, Question, Badge
+    
     load_data('Python/Project0/preload_data/grades.json', Grade)
     load_data('Python/Project0/preload_data/lessons.json', Lesson)
-    load_data('Python/Project0/preload_data/questions.json', Question)
+    load_data('unihack-2024/preload_data/questions.json', Question)
+    load_data('unihack-2024/preload_data/badges.json', Badge)
     
 
 def create_db(app):

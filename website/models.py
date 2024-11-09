@@ -1,6 +1,13 @@
 from . import db
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 from datetime import datetime, timedelta
+
+
+# Association tables for the many-to-many relationships
+user_badge = db.Table('user_badge',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('badge_id', db.Integer, db.ForeignKey('badge.id'), primary_key=True)
+)
 
 
 class User(db.Model, UserMixin):
@@ -23,6 +30,7 @@ class User(db.Model, UserMixin):
     posts = db.relationship('Post', backref='user', lazy=True)
     comments = db.relationship('Comment', backref='user', lazy='dynamic')
     questions = db.relationship('Question', backref='user')
+    badges = db.relationship('Badge', secondary=user_badge, back_populates='users')
 
 
     def update_streak(self):
@@ -40,6 +48,17 @@ class User(db.Model, UserMixin):
         self.last_exercise = today
         db.session.commit()
 
+    def award_badge(self):
+        if current_user.correct_answers == 1:
+            badge = Badge.query.filter_by(name="Primul Exercitiu").first()
+            if badge not in current_user.badges:
+                current_user.badges.append(badge)
+                db.session.commit()
+        if current_user.streak == 1:
+            badge = Badge.query.filter_by(name="Prima Zi").first()
+            if badge not in current_user.badges:
+                current_user.badges.append(badge)
+                db.session.commit()
     
     def get_leaderboard_answers(self):
         return User.query.order_by(User.correct_answers.desc()).all()
@@ -90,3 +109,12 @@ class Question(db.Model):
     answer = db.Column(db.String(128), nullable = True)
     completed = db.Column(db.Boolean, default=False, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+
+class Badge(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(32), nullable=False)
+    description = db.Column(db.String(128), nullable=False)
+    image_file = db.Column(db.String(64), nullable=False, default='profile_pics/default.jpg')
+    users = db.relationship('User', secondary=user_badge, back_populates='badges')
+    
