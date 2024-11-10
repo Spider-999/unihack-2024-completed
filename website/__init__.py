@@ -47,7 +47,7 @@ def create_app():
 
 def load_data(file, model):
     print(file)
-    with open(file, 'r') as file:
+    with open(file, 'r', encoding='utf-8') as file:
         data = json.load(file)
         
         match model.__name__:

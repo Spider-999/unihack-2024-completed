@@ -83,7 +83,7 @@ class User(db.Model, UserMixin):
         if (datetime.now() - current_user.quest_time).total_seconds() / 3600 >= 24:
             quest = Quest.query.all()
             for i in range(0, 3):
-                current_user.quests.append(quest[i])
+                current_user.quests.append(quest[randint(0, len(quest)-1)])
                 db.session.commit()
             current_user.daily_correct_answers = 0
             current_user.daily_lessons = 0

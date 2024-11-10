@@ -56,3 +56,7 @@ def lessons(page_id, capitol_id, lesson):
     except:
         return redirect(url_for('learn.classes', page_id=page_id))
     
+
+@learn.route('/quiz')
+def quiz():
+    return render_template('pages/invata/quiz.html')

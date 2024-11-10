@@ -3,7 +3,7 @@
 {% block content %}
 
 <style>
-    .row{
+    .row {
         box-shadow: 0 8px 8px 0 rgb(0, 0, 0, 0.5);
         transition: 0.3s;
         border-radius: 10px;
@@ -19,12 +19,10 @@
     }
 
     .container {
-
         padding: 32px 8px;
     }
 
-    pc
-    {
+    pc {
         font-family: Verdana;
         color: white;
         text-shadow: 2px 2px 4px #000000;  
@@ -39,32 +37,27 @@
         <ul class="list-group">
             <br>
             {% for lesson in lessons %}
-
-            {% if lesson.id < 4 %}
-                <a style="margin: auto; width: 98%;" href="{{ url_for('learn.lessons', page_id=5, capitol_id=1, lesson=lesson.id) }}" class="list-group-item list-group-item-action">
-                    {{lesson.title}}
-                
-                </a>
-            {% endif %}
-
+                {% if lesson.id < 4 %}
+                    <a style="margin: auto; width: 98%;" href="{{ url_for('learn.lessons', page_id=5, capitol_id=1, lesson=lesson.id) }}" class="list-group-item list-group-item-action">
+                        {{lesson.title}}
+                    </a>
+                {% endif %}
             {% endfor %}
             <br>
         </ul>
     </div>
-</br>
+    </br>
 
     <div class="row">
         <h3 class="text-light pt-4 fw-bold">CAPITOL 2: DIVIZIBILITATEA numerelor naturale</h3>
         <ul class="list-group">
             <br>
             {% for lesson in lessons %}
-
-            {% if lesson.id >= 4 and lesson.id < 8%}
-                <a style="margin: auto; width: 98%;" href="{{ url_for('learn.lessons', page_id=5, capitol_id=1, lesson=lesson.id) }}" class="list-group-item list-group-item-action">
-                    {{lesson.title}}
-                </a>
-            {% endif %}
-
+                {% if lesson.id >= 4 and lesson.id < 8 %}
+                    <button type="button" style="margin: auto; width: 98%;" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#errorModal">
+                        {{lesson.title}}
+                    </button>
+                {% endif %}
             {% endfor %}
             <br>
         </ul>
@@ -76,13 +69,11 @@
         <ul class="list-group">
             <br>
             {% for lesson in lessons %}
-
-            {% if lesson.id >= 8 and lesson.id < 11 %}
-                <a style="margin: auto; width: 98%;" href="{{ url_for('learn.lessons', page_id=5, capitol_id=1, lesson=lesson.id) }}" class="list-group-item list-group-item-action">
-                    {{lesson.title}}
-                </a>
-            {% endif %}
-
+                {% if lesson.id >= 8 and lesson.id < 11 %}
+                    <button type="button" style="margin: auto; width: 98%;" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#errorModal">
+                        {{lesson.title}}
+                    </button>
+                {% endif %}
             {% endfor %}
             <br>
         </ul>
@@ -94,20 +85,35 @@
         <ul class="list-group">  
             <br>
             {% for lesson in lessons %}
-
-            {% if lesson.id == 11%}
-                <a style="margin: auto; width: 98%;" href="{{ url_for('learn.lessons', page_id=5, capitol_id=1, lesson=lesson.id) }}" class="list-group-item list-group-item-action">
-                    {{lesson.title}}
-                </a>
-            {% endif %}
-
+                {% if lesson.id == 11 %}
+                    <button type="button" style="margin: auto; width: 98%;" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#errorModal">
+                        {{lesson.title}}
+                    </button>
+                {% endif %}
             {% endfor %}
             <br>
-        </a>
         </ul>
     </div>
 
     </br>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden ="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Eroare</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Nu este disponibil momentan.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Închide</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

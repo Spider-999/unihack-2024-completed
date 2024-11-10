@@ -39,20 +39,19 @@
                 {% endif %}
             </div>
 
-            <!-- Password input -->
+            <!-- Password input - Label moved on top -->
             <div class="form-outline mb-4">
-                {{ form.password(class="form-control", id="password") }}
                 <label class="form-label" for="password">Password</label>
+                {{ form.password(class="form-control", id="password") }}
             </div>
 
-            <!-- Confirm Password input -->
             <div class="form-outline mb-4">
+                <label class="form-label" for="confirmPassword">Confirm Password</label> 
                 {{ form.password_confirm(class="form-control", id="confirmPassword") }}
-                <label class="form-label" for="confirmPassword">Confirm Password</label>
             </div>
 
-            <!-- User Role dropdown (if applicable) -->
             <div class="form-outline mb-4">
+            <label class="form-label" for="userRole">Rol</label> 
                 {{ form.user_role(class="form-control") }}
             </div>
 

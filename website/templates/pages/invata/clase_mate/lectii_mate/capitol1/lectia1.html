@@ -2,17 +2,22 @@
 
 {% block content %}
 
-<div class="container px-4">
+<div class="container px-4 text-center">
+    <!-- Centered Image -->
     <img src="{{ url_for('static', filename=img) }}" 
          alt="Responsive Image" 
-         class="img-fluid responsive-banner shadow-lg rounded">
+         class="img-fluid shadow-lg rounded d-block mx-auto">
 
-    <form id="theme" method="POST" class="mt-5" style="width: 20rem; display:flex; height: 40px;">
+    <!-- Centered Form -->
+    <form id="theme" method="POST" class="mt-5 mx-auto" style="width: 20rem;">
         {{ theme_form.hidden_tag() }}
-            <small>Alege tematica lectiei</small> {{theme_form.themes(class="form-control mx-2")}}
-            {{theme_form.submit(class="btn btn-info")}}
+        <h4 class="fw-bold text-secondary">ALEGE TEMATICA LECTIEI</h4> 
+        {{ theme_form.themes(class="form-control mx-2") }}
+        <div class="pb-3"></div>
+        {{ theme_form.submit(class="btn btn-primary") }}
     </form>
 </div>
+
 
 
 <div class="container my-5 px-4">
