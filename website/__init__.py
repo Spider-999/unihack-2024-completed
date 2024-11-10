@@ -57,7 +57,7 @@ def load_data(file, model):
                     # check if the model doesnt already exist in the db
                     if not model.query.filter_by(**item, user_id=current_user.id).first():
                         db.session.add(instance)
-            case "Lesson"|"Grade"|"Badge"|"Theme":
+            case "Lesson"|"Grade"|"Badge"|"Theme"|"Quest":
                 for item in data:
                     instance = model(**item)
                     print(instance)
@@ -75,13 +75,15 @@ def load_data(file, model):
 
 # TO DO: move this function in another file with utility functions
 def populate_db():
-    from .models import Grade, Lesson, Question, Badge, Theme
+    from .models import Grade, Lesson, Question, Badge, Theme, Quest
     
     load_data('/home/wh0am1/Workspace/unihack-2024/website/preload_data/grades.json', Grade)
     load_data('/home/wh0am1/Workspace/unihack-2024/website/preload_data/lessons.json', Lesson)
     load_data('/home/wh0am1/Workspace/unihack-2024/website/preload_data/questions.json', Question)
     load_data('/home/wh0am1/Workspace/unihack-2024/website/preload_data/badges.json', Badge)
     load_data('/home/wh0am1/Workspace/unihack-2024/website/preload_data/themes.json', Theme)
+    load_data('/home/wh0am1/Workspace/unihack-2024/website/preload_data/quests.json', Quest)
+
 
 def create_db(app):
     if not os.path.exists('website/db.sqlite3'):

@@ -43,7 +43,9 @@ def profile():
         return redirect(url_for('pages.profile'))
 
     img_file = url_for('static', filename='profile_pics/' + current_user.image_file)
-    return render_template('pages/profile.html', image_file=img_file, form=form, experience=current_user.experience, total_experience = 50)
+    return render_template('pages/profile.html', image_file=img_file, form=form, experience=current_user.experience, total_experience = 50,
+                           quests=current_user.get_quests(), leaderboard_answers=current_user.get_leaderboard_answers(),
+                           leaderboard_days = current_user.get_leaderboard_days())
 
 
 @pages.route('/profile/get_experience')

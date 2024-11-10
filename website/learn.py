@@ -41,10 +41,13 @@ def lessons(page_id, capitol_id, lesson):
                     user = User.query.get(current_user.id)
                     user.correct_answers += 1
                     user.experience += 10
-                    db.session.commit()
+                    user.daily_experience += 10
+                    user.daily_correct_answers += 1
                     user.update_streak()
                     user.award_badge()
+                    user.check_quests()
                     user.level_up()
+                    db.session.commit()
             forms[i].question.data = ''
         
         return render_template(f'pages/invata/clase_mate/lectii_mate/capitol{capitol_id}/lectia1.html',

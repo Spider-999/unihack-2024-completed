@@ -37,6 +37,7 @@ def login():
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
             populate_db()
+            current_user.set_daily_quests()
             return redirect(url_for('pages.home'))
     
     return render_template('auth/login.html', title='Autentificare', form=form)

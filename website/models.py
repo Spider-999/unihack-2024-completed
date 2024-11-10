@@ -1,12 +1,19 @@
 from . import db
 from flask_login import UserMixin, current_user
 from datetime import datetime, timedelta
+from random import randint
 
 
 # Association tables for the many-to-many relationships
 user_badge = db.Table('user_badge',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
     db.Column('badge_id', db.Integer, db.ForeignKey('badge.id'), primary_key=True)
+)
+
+user_quest = db.Table('user_quest',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('quest_id', db.Integer, db.ForeignKey('quest.id'), primary_key=True),
+    db.Column('completed', db.Boolean, default=False)
 )
 
 
@@ -24,8 +31,15 @@ class User(db.Model, UserMixin):
     experience = db.Column(db.Integer, default = 0)
 
 
+    # Daily data specifically needed for quests
+    daily_correct_answers = db.Column(db.Integer, default = 0)
+    daily_lessons = db.Column(db.Integer, default = 0)
+    daily_experience = db.Column(db.Integer, default = 0)
+
+
     # Set time to yesterday for newly created user for last exercise solved
     last_exercise = db.Column(db.DateTime(), nullable=True, default=datetime.now() - timedelta(1))
+    quest_time = db.Column(db.DateTime(), nullable=False, default=datetime.now() - timedelta(1))
 
     # backref -> use the author to get the user who created the post
     # lazy -> load the data in one go from the db
@@ -33,6 +47,7 @@ class User(db.Model, UserMixin):
     comments = db.relationship('Comment', backref='user', lazy='dynamic')
     questions = db.relationship('Question', backref='user')
     badges = db.relationship('Badge', secondary=user_badge, back_populates='users')
+    quests = db.relationship('Quest', secondary=user_quest, back_populates='users')
 
 
     def update_streak(self):
@@ -50,6 +65,7 @@ class User(db.Model, UserMixin):
         self.last_exercise = today
         db.session.commit()
 
+
     def award_badge(self):
         if current_user.correct_answers == 1:
             badge = Badge.query.filter_by(name="Primul Exercitiu").first()
@@ -61,6 +77,65 @@ class User(db.Model, UserMixin):
             if badge not in current_user.badges:
                 current_user.badges.append(badge)
                 db.session.commit()
+
+
+    def set_daily_quests(self):
+        if (datetime.now() - current_user.quest_time).total_seconds() / 3600 >= 24:
+            quest = Quest.query.all()
+            for i in range(0, 3):
+                current_user.quests.append(quest[i])
+                db.session.commit()
+            current_user.daily_correct_answers = 0
+            current_user.daily_lessons = 0
+            current_user.daily_experience = 0
+            current_user.quest_time = datetime.now()
+            db.session.commit()
+
+    
+    def check_quests(self):
+        for quest in self.quests:
+            completed = db.session.query(user_quest.c.completed).filter_by(
+                user_id=self.id,
+                quest_id=quest.id
+            ).scalar()
+
+            if completed:
+                continue
+
+            if quest.quest_type == 1 and self.daily_experience >= int(quest.quest_requirement):
+                self.daily_experience += quest.experience
+                self.experience += quest.experience
+                db.session.execute(user_quest.update().where(
+                    user_quest.c.user_id == self.id,
+                    user_quest.c.quest_id == quest.id
+                ).values(completed=True))
+            elif quest.quest_type == 2 and self.daily_correct_answers >= int(quest.quest_requirement):
+                self.experience += quest.experience
+                db.session.execute(user_quest.update().where(
+                    user_quest.c.user_id == self.id,
+                    user_quest.c.quest_id == quest.id
+                ).values(completed=True))
+
+        db.session.commit()
+
+
+    def get_quests(self):
+        user_quests = []
+        for quest in current_user.quests:
+            completed = db.session.query(user_quest.c.completed).filter_by(
+                user_id=current_user.id,
+                quest_id=quest.id
+            ).scalar()
+
+            user_quests.append({
+                'id': quest.id,
+                'description': quest.description,
+                'experience': quest.experience,
+                'quest_requirement': quest.quest_requirement,
+                'quest_type': quest.quest_type,
+                'completed': completed
+            })
+        return user_quests
 
     
     def level_up(self):
@@ -133,6 +208,15 @@ class Badge(db.Model):
     image_file = db.Column(db.String(64), nullable=False, default='profile_pics/default.jpg')
     users = db.relationship('User', secondary=user_badge, back_populates='badges')
     
+
+class Quest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(64), nullable=False)
+    experience = db.Column(db.Integer, nullable=False)
+    quest_requirement = db.Column(db.String, nullable=False)
+    quest_type = db.Column(db.Integer, nullable=False)
+    users = db.relationship('User', secondary=user_quest, back_populates='quests')
+
 
 class Theme(db.Model):
     id = db.Column(db.Integer, primary_key=True)

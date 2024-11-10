@@ -75,9 +75,35 @@
                             {% endif %}
                         </div>
                     </div>
+
+                    <div class="mb-3">
+                        <label class="small mb-1 fw-bold text-primary">Misiuni</label>
+                        <div class="form-control form-control-plaintext border rounded shadow-sm px-3">
+                            {% for quest in quests %}
+                                {% if quest.completed %}
+                                    Misiune {{loop.index}} -> completata, ai primit {{quest.experience}} experienta
+                                {% else %}
+                                    Misiune {{loop.index}} -> {{quest.description}}
+                                    Recompensa: {{quest.experience}} experienta
+                                {% endif %}
+                                <br></br>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
+
+        <h2>Cei mai activi useri</h2>
+        {% for user in leaderboard_days %}
+            {{user.username}} {{user.streak}} zile<br></br>
+        {% endfor %}
+
+        <h2>Utilizatorii cu cele mai multe exercitii rezolvate</h2>
+        {% for user in leaderboard_answers %}
+            {{user.username}} {{user.correct_answers}} exercitii<br></br>
+        {% endfor %}
     </div>
 </div>
 

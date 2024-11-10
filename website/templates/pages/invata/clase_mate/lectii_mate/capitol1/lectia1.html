@@ -25,7 +25,7 @@
     <div class="container bg-white rounded shadow-sm p-6">
         <h3 class="fw-bold text-primary mb-4">Exerciții</h3>
         
-        <form method="POST">
+        <form name='questions' method="POST">
             {% for form in forms %}
                 {{ form.hidden_tag() }}
                 

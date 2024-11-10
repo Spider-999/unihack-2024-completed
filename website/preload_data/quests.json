@@ -1,0 +1,44 @@
+[
+    {
+        "quest_type":1,  
+        "quest_requirement": 30,
+        "description": "Obtine 30 puncte xp",
+        "experience": 20
+    },
+    {
+        "quest_type":1,
+        "quest_requirement": 50,
+        "description": "Obtine 50 puncte xp",
+        "experience": 30
+    },
+    {
+        "quest_type":2,
+        "quest_requirement": 1,
+        "description": "Rezolva 5 exercitii corect",
+        "experience": 20
+    },
+    {
+        "quest_type":2,
+        "quest_requirement": 2,
+        "description": "Rezolva 10 exercitii corect",
+        "experience": 30
+    },
+    {
+        "quest_type":2,
+        "quest_requirement": 3,
+        "description": "Rezolva 15 exercitii corect",
+        "experience": 40
+    },
+    {
+        "quest_type":3,
+        "quest_requirement": 1,
+        "description": "Termina 3 lectii in intregime",
+        "experience": 35
+    },
+    {
+        "quest_type":3,
+        "quest_requirement": 2,
+        "description": "Termina 5 lectii in intregime",
+        "experience": 50
+    }
+]
