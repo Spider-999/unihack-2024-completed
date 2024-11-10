@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, request, jsonify
 from flask_login import current_user, login_required
-from .forms import QuestionForm
+from .forms import QuestionForm, ThemeForm
 from .models import Question, User, Theme, Lesson
 from . import db
 
@@ -19,14 +19,17 @@ def classes(page_id):
 @login_required
 def lessons(page_id, capitol_id, lesson):
     try:
-
         forms = []
-        
+        image = None
         # Get all the questions for the particular lesson id
         questions = Question.query.filter_by(lesson_id=lesson, user_id=current_user.id).all()
+        theme_form = ThemeForm()
+        theme = Theme.query.filter_by(lesson_id=lesson, name='Minecraft').first()
         
-        theme = Theme.query.filter_by(lesson_id=lesson).first()
+        if theme_form.validate_on_submit():
+            theme = Theme.query.filter_by(lesson_id=lesson, name=theme_form.themes.data).first()
         
+        image = (theme.name + '.jpg').lower()
         for i in range(0, len(questions)):
             forms.append(QuestionForm(prefix=f'question_{i}'))
         
@@ -45,12 +48,8 @@ def lessons(page_id, capitol_id, lesson):
             forms[i].question.data = ''
         
         return render_template(f'pages/invata/clase_mate/lectii_mate/capitol{capitol_id}/lectia1.html',
-                    page_id=page_id,capitol_id=capitol_id,lesson=lesson, forms=forms, questions=questions, text=theme.content)
+                    page_id=page_id,capitol_id=capitol_id,lesson=lesson, forms=forms, questions=questions, text=theme.content,
+                    theme_form=theme_form, title='Lectie', img=image)
     except:
         return redirect(url_for('learn.classes', page_id=page_id))
     
-
-@learn.route('/quiz', methods=['GET', 'POST'])
-@login_required
-def quiz():
-    return render_template('pages/invata/quiz.html')

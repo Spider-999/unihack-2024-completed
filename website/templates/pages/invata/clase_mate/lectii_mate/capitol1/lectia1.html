@@ -2,107 +2,54 @@
 
 {% block content %}
 
-<style>
+<div class="container px-4">
+    <img src="{{ url_for('static', filename=img) }}" 
+         alt="Responsive Image" 
+         class="img-fluid responsive-banner shadow-lg rounded">
 
-    .card{
-        box-shadow: 0 8px 8px 0 rgb(0, 0, 0, 0.1);
-        border-radius: 4px;
-        width: device-width;
-        height: device-height;
-        background-image: linear-gradient(to bottom , rgba(13, 110, 253, 0.5), rgba(13, 110, 253, 0.8));
-        
-        align-items: center;
-    }
+    <form id="theme" method="POST" class="mt-5" style="width: 20rem; display:flex; height: 40px;">
+        {{ theme_form.hidden_tag() }}
+            <small>Alege tematica lectiei</small> {{theme_form.themes(class="form-control mx-2")}}
+            {{theme_form.submit(class="btn btn-info")}}
+    </form>
+</div>
 
-    .container {
-        padding: 4px 4px;
-    }
 
-    pc
-    {
-        font-family: Verdana;
-        color: white;
-        text-shadow: 2px 2px 4px #000000;  
-        text-align: justify;
-    }
-
-    p1
-    {
-        font-family: Verdana;
-        padding: 0px 24px;
-    }
-    h1
-    {
-        font-family: Verdana;
-        padding: 0px 12px;
-    }
-    h2
-    {
-        font-family: Verdana;
-        padding: 0px 12px;
-    }
-    h3
-    {
-        font-family: Verdana;
-        padding: 0px 12px;
-    }
-    h4
-    {
-        font-family: Verdana;
-        padding: 0px 12px;
-    }
-    pt
-    {
-        font-family: Verdana;
-        padding: 0px 8px;
-    }
-</style>
-
-<br>
-
-<!-- Form card -->
-
-<div class= "card" align= "justify">
-
-    <div class="container">
+<div class="container my-5 px-4">
+    <!-- Text Container -->
+    <div class="container bg-light rounded shadow-sm p-4 mb-4">
         <span style="white-space: pre-line">{{ text }}</span>
     </div>
 
-    <br>
-    
-    <form method="POST">
-        <div class= "container">
-    
-        <br>
-    
-        <h3 align-items="justify"><b><u>Exercitii</u></b></h3>    
-    
-        <br>
-        {% for form in forms %}
-            {{ form.hidden_tag() }}
-            {{ questions[loop.index0].question_text }}
-            
-            {% if questions[loop.index0].completed %}
-                <p> {{ form.question(readonly=true) }} raspuns corect! </p>
-            {% else %}
-                    <p>
-                        {{ form.question(class="form-control") }}
-                    </p>
-    
-                    <p>
-                        {{ form.submit(class="btn btn-primary") }}
-                    </p>
+    <!-- Exercise Section -->
+    <div class="container bg-white rounded shadow-sm p-6">
+        <h3 class="fw-bold text-primary mb-4">Exerciții</h3>
+        
+        <form method="POST">
+            {% for form in forms %}
+                {{ form.hidden_tag() }}
                 
-            {% endif %}
-        {% endfor %}
-        </div>
-    </form>
-    
-    <br>
-    
+                <!-- Question Container -->
+                <div class="mb-4">
+                    <p class="fw-semibold">{{ questions[loop.index0].question_text }}</p>
+                    
+                    {% if questions[loop.index0].completed %}
+                        <p>
+                            {{ form.question(readonly=true, class="form-control-plaintext text-success") }} 
+                            <span class="text-success fw-bold">Răspuns corect!</span>
+                        </p>
+                    {% else %}
+                        <div class="mb-2">
+                            {{ form.question(class="form-control") }}
+                        </div>
+                        <div>
+                            {{ form.submit(class="btn btn-primary mb-3") }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </form>
     </div>
-    
-    <!-- end Form card -->
-
+</div>
 
 {% endblock %}

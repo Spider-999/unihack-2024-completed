@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField, RadioField
 from wtforms.validators import DataRequired, Email, ValidationError
 from werkzeug.security import check_password_hash
 from .models import User
@@ -51,3 +51,13 @@ class PostComment(FlaskForm):
 class QuestionForm(FlaskForm):
     question = StringField('Intrebare')
     submit = SubmitField('Raspunde')
+
+
+class QuizForm(FlaskForm):
+    choices = RadioField('Alegeri', validators=[DataRequired()])
+    submit = SubmitField('Raspunde')
+
+
+class ThemeForm(FlaskForm):
+    themes = SelectField('Tematici', validators=[DataRequired()], choices=['Minecraft', 'Fortnite', 'Roblox'], default='Minecraft')
+    submit = SubmitField('Alege')
