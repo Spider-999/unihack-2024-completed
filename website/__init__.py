@@ -26,7 +26,7 @@ def create_app():
     app.register_blueprint(learn, url_prefix='/')
     
     # Database setup
-    from .models import User
+    from .models import user_badge, user_quest, User, Post, Comment, Grade, Lesson, Question, Badge, Quest, Theme
     db.init_app(app)
     migrate.init_app(app, db)
     create_db(app)
@@ -46,7 +46,6 @@ def create_app():
 
 
 def load_data(file, model):
-    print(file)
     with open(file, 'r', encoding='utf-8') as file:
         data = json.load(file)
         
@@ -60,7 +59,6 @@ def load_data(file, model):
             case "Lesson"|"Grade"|"Badge"|"Theme"|"Quest":
                 for item in data:
                     instance = model(**item)
-                    print(instance)
                     # check if the model doesnt already exist in the db
                     if not model.query.filter_by(**item).first():
                         db.session.add(instance)
@@ -76,13 +74,13 @@ def load_data(file, model):
 # TO DO: move this function in another file with utility functions
 def populate_db():
     from .models import Grade, Lesson, Question, Badge, Theme, Quest
-    
-    load_data('/home/wh0am1/Workspace/unihack-2024/website/preload_data/grades.json', Grade)
-    load_data('/home/wh0am1/Workspace/unihack-2024/website/preload_data/lessons.json', Lesson)
-    load_data('/home/wh0am1/Workspace/unihack-2024/website/preload_data/questions.json', Question)
-    load_data('/home/wh0am1/Workspace/unihack-2024/website/preload_data/badges.json', Badge)
-    load_data('/home/wh0am1/Workspace/unihack-2024/website/preload_data/themes.json', Theme)
-    load_data('/home/wh0am1/Workspace/unihack-2024/website/preload_data/quests.json', Quest)
+    ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) + '/preload_data'
+    load_data(ROOT_DIR + '/grades.json', Grade)
+    load_data(ROOT_DIR + '/lessons.json', Lesson)
+    load_data(ROOT_DIR + '/questions.json', Question)
+    load_data(ROOT_DIR + '/badges.json', Badge)
+    load_data(ROOT_DIR + '/themes.json', Theme)
+    load_data(ROOT_DIR + '/quests.json', Quest)
 
 
 def create_db(app):

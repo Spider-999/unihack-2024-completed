@@ -80,16 +80,29 @@ class User(db.Model, UserMixin):
 
 
     def set_daily_quests(self):
-        if (datetime.now() - current_user.quest_time).total_seconds() / 3600 >= 24:
-            quest = Quest.query.all()
-            for i in range(0, 3):
-                current_user.quests.append(quest[randint(0, len(quest)-1)])
+        try:
+            if (datetime.now() - current_user.quest_time).total_seconds() / 3600 >= 24:
+                for quest in current_user.quests:
+                    # Reset last days quest to not completed
+                    db.session.execute(user_quest.update().where(
+                    user_quest.c.user_id == self.id,
+                    user_quest.c.quest_id == quest.id
+                    ).values(completed=False))
+                # Remove quests from the current user
+                current_user.quests.clear()
+
+                # Add another 3 random quests
+                quest = Quest.query.all()
+                for i in range(0, 3):
+                    current_user.quests.append(quest[randint(0, len(quest)-1)])
+                
+                current_user.daily_correct_answers = 0
+                current_user.daily_lessons = 0
+                current_user.daily_experience = 0
+                current_user.quest_time = datetime.now()
                 db.session.commit()
-            current_user.daily_correct_answers = 0
-            current_user.daily_lessons = 0
-            current_user.daily_experience = 0
-            current_user.quest_time = datetime.now()
-            db.session.commit()
+        except:
+            print('Quest error')
 
     
     def check_quests(self):
