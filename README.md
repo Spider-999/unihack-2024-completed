@@ -10,3 +10,5 @@ The website is a gamefied elearning website for school/highschool students in gr
 The main idea is that a user can change the theme of a basic lesson to a lesson with a game theme
 to make learning fun and immersive for kids.
 The website also has leaderboards, daily streak, quests and exercises which a user can complete.
+
+# The project is on the Web branch
