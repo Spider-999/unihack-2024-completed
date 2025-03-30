@@ -1,3 +1,10 @@
+# Contributors
+Ddaerb
+Spider-999
+YeetOfD00m
+lumbagoskeleton
+
+
 # unihack-2024-completed
 Project made for the 2024 edition of unihack timisoara(48 hours hackathon).
 
